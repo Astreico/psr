@@ -9,12 +9,15 @@ class RequestTest extends TestCase
 {
     public function testEmpty()
     {
-        $_GET = [];
-        $_POST = [];
+        $request = Request::createFromGlobals();
+        self::assertEquals([], $request->getQuery());
+        self::assertEquals([], $request->getBody());
+    }
 
-        $request = new Request();
-
-        self::assertEquals([], $request->getQueryParams());
-        self::assertEquals([], $request->getParsedBody());
+    public function testInitialize()
+    {
+        $request = Request::createFromGlobals(['query' => 'value'], ['body' => 'value']);
+        self::assertEquals(['query' => 'value'], $request->getQuery());
+        self::assertEquals(['body' => 'value'], $request->getBody());
     }
 }

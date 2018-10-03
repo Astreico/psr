@@ -4,18 +4,62 @@ namespace Component\Http;
 
 class Request
 {
-    public function getQueryParams(): array
+
+    /**
+     * @var array
+     */
+    private $query = [];
+
+    /**
+     * @var array
+     */
+    private $body = [];
+
+    /**
+     * @param array $query
+     * @param array $body
+     * @return $this
+     */
+    public static function createFromGlobals($query = [], $body = [])
     {
-        return $_GET;
+        return (new self())
+                ->setQuery($query)
+                ->setBody($body);
     }
 
-    public function getParsedBody(): array
+    /**
+     * @return array
+     */
+    public function getQuery(): array
     {
-        return $_POST ?? [];
+        return $this->query;
     }
 
-    public function getBody()
+    /**
+     * @param array $query
+     * @return $this
+     */
+    public function setQuery(array $query)
     {
-        return file_get_contents('php://input');
+        $this->query = $query;
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getBody(): array
+    {
+        return $this->body;
+    }
+
+    /**
+     * @param array $body
+     * @return $this
+     */
+    public function setBody(array $body)
+    {
+        $this->body = $body;
+        return $this;
     }
 }
