@@ -126,7 +126,4 @@ class Response
     {
         return $this->hasHeader($header) ? $this->headers[$header] : '';
     }
-
-
-
 }
